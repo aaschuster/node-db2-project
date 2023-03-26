@@ -3,7 +3,8 @@ const router = require("express").Router();
 const {
     checkCarId,
     checkCarPayload,
-    checkVinNumberValid
+    checkVinNumberValid,
+    checkVinNumberUnique
 } = require("./cars-middleware");
 
 router.get("/", (req, res, next) => {
@@ -18,11 +19,17 @@ router.get("/:id", checkCarId, (req, res, next) => {
         .catch(next);
 });
 
-router.post("/", checkCarPayload, checkVinNumberValid, (req, res, next) => {
-    Cars.create(req.body)
-        .then( newCar => res.status(201).json(newCar))
-        .catch(next);
-});
+router.post("/", 
+    checkCarPayload,
+    checkVinNumberValid,
+    checkVinNumberUnique,
+    
+    (req, res, next) => {
+        Cars.create(req.body)
+            .then( newCar => res.status(201).json(newCar))
+            .catch(next);
+    }
+);
 
 module.exports = router;
 

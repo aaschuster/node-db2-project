@@ -28,7 +28,7 @@ const checkCarPayload = (req, res, next) => {
 
 const checkVinNumberValid = (req, res, next) => {
   
-  const { vin }= req.body;
+  const { vin } = req.body;
 
   if(vinValidator.validate(vin)) next();
   else next( {
@@ -37,8 +37,16 @@ const checkVinNumberValid = (req, res, next) => {
   })
 }
 
-const checkVinNumberUnique = (req, res, next) => {
-  
+const checkVinNumberUnique = async (req, res, next) => {
+
+  const { vin } = req.body;
+  const car = await Cars.getByVin(vin);
+
+  if(!car) next();
+  else next( {
+    status: 400,
+    message: `vin ${vin} already exists`
+  })
 }
 
 module.exports = {
