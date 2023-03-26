@@ -40,7 +40,7 @@ const checkVinNumberValid = (req, res, next) => {
 const checkVinNumberUnique = async (req, res, next) => {
 
   const { vin } = req.body;
-  const car = await Cars.getByVin(vin);
+  const car = await Cars.getByVin (vin);
 
   if(!car) next();
   else next( {

@@ -23,7 +23,7 @@ router.post("/",
     checkCarPayload,
     checkVinNumberValid,
     checkVinNumberUnique,
-    
+
     (req, res, next) => {
         Cars.create(req.body)
             .then( newCar => res.status(201).json(newCar))
@@ -32,4 +32,3 @@ router.post("/",
 );
 
 module.exports = router;
-
