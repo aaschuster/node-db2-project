@@ -12,7 +12,16 @@ const checkCarId = async (req, res, next) => {
 }
 
 const checkCarPayload = (req, res, next) => {
-  
+  const errObj = { status: 400 };
+
+  const requiredFields = ["vin", "make", "model", "mileage"];
+
+  for (const field of requiredFields) {
+    if(!req.body[field]) errObj.message = `${field} is missing`;
+  };
+
+  if(errObj.message) next(errObj);
+  else next();
 }
 
 const checkVinNumberValid = (req, res, next) => {
